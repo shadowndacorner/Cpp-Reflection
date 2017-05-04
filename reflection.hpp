@@ -24,6 +24,7 @@ SOFTWARE.
 
 
 #pragma once
+#include <cassert>
 #include <string>
 #include <unordered_set>
 #include <unordered_map>
@@ -176,12 +177,6 @@ namespace reflection
 	const Type& GetObjectType(T& obj)
 	{
 		return reflection_internal::get_reflection_table()[typeid(obj).hash_code()];
-	}
-
-	template <>
-	const Type& GetObjectType<Type::Member>(Type::Member& obj)
-	{
-		return obj.GetType();
 	}
 
 	const Type& GetTypeByName(const std::string& name);
@@ -349,4 +344,7 @@ DEFINE_TYPE(int64_t) {}
 
 DEFINE_TYPE(bool) {}
 DEFINE_TYPE(std::string) {}
+
+DEFINE_TYPE(reflection::Type) {}
+DEFINE_TYPE(reflection::Type::Member) {}
 #endif

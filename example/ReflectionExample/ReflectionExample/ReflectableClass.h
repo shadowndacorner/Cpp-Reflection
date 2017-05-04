@@ -21,9 +21,11 @@ SOFTWARE.
 */
 
 #pragma once
-#include <reflection.hpp>
 #include <string>
 #include <vector>
+
+// ALLOW_PRIVATE_REFLECTION
+#include <reflection.hpp>
 
 namespace reflection_example
 {
@@ -43,9 +45,6 @@ namespace reflection_example
 		std::string name;
 		std::vector<Human> children;
 
-		int GetAge()
-		{
-			return age;
-		}
+		int GetAge();
 	};
 }
