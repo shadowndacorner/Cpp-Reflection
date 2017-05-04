@@ -44,6 +44,7 @@ namespace reflection_example
 	public:
 		std::string name;
 		std::vector<Human> children;
+		void* ptr;
 
 		int GetAge();
 	};

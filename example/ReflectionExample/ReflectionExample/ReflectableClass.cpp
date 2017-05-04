@@ -23,6 +23,7 @@ DEFINE_TYPE(reflection_example::Human)
 	// Declare Human's members
 	DEFINE_MEMBER(name);
 	DEFINE_MEMBER(children);
+	DEFINE_MEMBER(ptr);
 
 	// Since the class definition allows private reflection, we can get Mammal::Age
 	DEFINE_MEMBER(age);

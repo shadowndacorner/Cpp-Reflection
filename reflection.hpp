@@ -28,6 +28,7 @@ SOFTWARE.
 #include <string>
 #include <unordered_set>
 #include <unordered_map>
+#include <type_traits>
 
 namespace reflection_internal {
 	template <typename T>
@@ -44,14 +45,15 @@ namespace reflection
 		public:
 			friend class Type;
 			Member();
-			Member(const std::string& name, size_t offset, const type_info& typehash);
+			Member(const std::string& name, size_t offset, const type_info& typehash, bool is_ptr);
 
 		public:
 			const Type& GetType() const;
 			const std::string& GetName() const;
 			std::string GetTypeName() const;
 			size_t GetOffset() const;
-			
+			bool IsPtr() const;
+
 			template <typename T>
 			inline T& GetFromInstance(void* data) const
 			{
@@ -64,6 +66,7 @@ namespace reflection
 			const type_info* m_typeinfo;
 			Type* m_type;
 			bool is_valid;
+			bool m_isptr;
 		};
 
 		template <typename T>
@@ -100,7 +103,7 @@ namespace reflection
 		template <typename T>
 		Member& AddMember(const std::string& name, T* mem)
 		{
-			return m_members[name] = Member(name, (size_t)mem, typeid(T));
+			return m_members[name] = Member(name, (size_t)mem, typeid(std::remove_pointer<T>::type), std::is_pointer<T>::value);
 		}
 
 		/*
@@ -243,7 +246,7 @@ inline const Type::Member& reflection::Type::GetMember(const std::string & name)
 
 	return const_cast<std::unordered_map<std::string, Type::Member>&>(m_members)[name];
 }
-	
+
 inline bool reflection::Type::ChildOf(const Type & rhs) const
 {
 	return m_parents.count(&const_cast<Type&>(rhs));
@@ -293,7 +296,7 @@ const Type& reflection::GetTypeByName(const std::string & name)
 }
 
 inline reflection::Type::Member::Member() : m_name("INVALID MEMBER"), is_valid(false), m_type(nullptr), m_typeinfo(&typeid(void)) {}
-reflection::Type::Member::Member(const std::string & name, size_t offset, const type_info& typeinfo) : is_valid(false), m_typeinfo(&typeinfo), m_name(name), m_offset(offset), m_type(nullptr){}
+reflection::Type::Member::Member(const std::string & name, size_t offset, const type_info& typeinfo, bool is_ptr) : is_valid(false), m_typeinfo(&typeinfo), m_name(name), m_offset(offset), m_type(nullptr), m_isptr(is_ptr){}
 
 inline const Type& reflection::Type::Member::GetType() const
 {
@@ -326,6 +329,11 @@ inline size_t reflection::Type::Member::GetOffset() const
 		return 0;
 
 	return m_offset;
+}
+
+inline bool reflection::Type::Member::IsPtr() const
+{
+	return m_isptr;
 }
 
 #include <inttypes.h>
