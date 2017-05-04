@@ -48,3 +48,8 @@ namespace reflection_example
 		int GetAge();
 	};
 }
+
+struct int3
+{
+	int x, y, z;
+};

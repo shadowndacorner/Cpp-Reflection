@@ -1,5 +1,11 @@
 #include "ReflectableClass.h"
 
+int reflection_example::Human::GetAge()
+{
+	return 0;
+}
+
+
 // Define the Mammal class for reflection
 DEFINE_TYPE(reflection_example::Mammal)
 {
@@ -21,7 +27,9 @@ DEFINE_TYPE(reflection_example::Human)
 	DEFINE_MEMBER(age);
 }
 
-int reflection_example::Human::GetAge()
+DEFINE_TYPE(int3)
 {
-	return 0;
+	DEFINE_MEMBER(x);
+	DEFINE_MEMBER(y);
+	DEFINE_MEMBER(z);
 }
