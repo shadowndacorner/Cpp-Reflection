@@ -46,6 +46,14 @@ void main()
 	using namespace reflection_example;
 	Human p;
 
+	// Ensure that polymorphism works
+	BaseClass* child = new ChildClass;
+	
+	// We are derived
+	ChildClass& child_cast = dynamic_cast<ChildClass&>(*child);
+	assert(&GetObjectType(*child) == &GetType<ChildClass>());
+	delete child;
+
 	// Get type info for object p
 	auto& human_type = GetObjectType(p);
 
@@ -79,6 +87,8 @@ void main()
 	print_type_info(mammal_type);
 	print_type_info(human_type);
 
+	std::cout << std::endl << "Press return to exit" << std::endl;
+	// Wait for user input to close
 	char buf[512];
 	std::cin.getline(buf, 512);
 }

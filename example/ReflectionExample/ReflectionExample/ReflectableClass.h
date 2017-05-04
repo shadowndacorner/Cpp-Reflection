@@ -47,6 +47,21 @@ namespace reflection_example
 
 		int GetAge();
 	};
+
+	// Test for polymorphic type determination
+	class BaseClass
+	{
+	public:
+		virtual void virtual_method(){}
+
+		int i;
+	};
+
+	class ChildClass : public BaseClass
+	{
+	public:
+		int y;
+	};
 }
 
 struct int3

@@ -1,10 +1,11 @@
 #include "ReflectableClass.h"
 
+// Just a function so we can test the validity of the private date member without
+// friending main
 int reflection_example::Human::GetAge()
 {
-	return 0;
+	return age;
 }
-
 
 // Define the Mammal class for reflection
 DEFINE_TYPE(reflection_example::Mammal)
@@ -32,4 +33,17 @@ DEFINE_TYPE(int3)
 	DEFINE_MEMBER(x);
 	DEFINE_MEMBER(y);
 	DEFINE_MEMBER(z);
+}
+
+DEFINE_TYPE(reflection_example::BaseClass)
+{
+	DEFINE_MEMBER(i);
+}
+
+DEFINE_TYPE(reflection_example::ChildClass)
+{
+	DEFINE_PARENT(reflection_example::BaseClass);
+	DEFINE_MEMBER(i);
+
+	DEFINE_MEMBER(y);
 }
